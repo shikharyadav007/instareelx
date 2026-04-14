@@ -1,25 +1,55 @@
 const express = require("express");
-const path = require("path");
+const fetch = require("node-fetch");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.json());
+app.use(express.static(__dirname));
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
+/* =========================
+   GET VIDEO PREVIEW API
+========================= */
+app.post("/get-video", async (req, res) => {
+  try {
+    const { url } = req.body;
 
-app.get("/download-file", (req, res) => {
-  const fileUrl = req.query.url;
+    if (!url) {
+      return res.json({ error: "No URL provided" });
+    }
 
-  if (!fileUrl) {
-    return res.send("No URL provided");
+    // 🔥 Simple trick (works for many reels)
+    const apiUrl = `https://api.vxtiktok.com/instagram?url=${url}`;
+
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    if (data && data.video) {
+      return res.json({ videoUrl: data.video });
+    } else {
+      return res.json({ error: "Video not found" });
+    }
+
+  } catch (err) {
+    console.log(err);
+    res.json({ error: "Failed to fetch video" });
   }
-
-  res.redirect(fileUrl);
 });
 
+/* =========================
+   DOWNLOAD ROUTE
+========================= */
+app.get("/download-file", (req, res) => {
+  const url = req.query.url;
+
+  if (!url) return res.send("No URL");
+
+  res.redirect(url);
+});
+
+/* =========================
+   START SERVER
+========================= */
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log("Server running on port " + PORT);
 });
