@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <title>InstaReelX</title>
 
+<!-- 🔥 SOCIAL BAR -->
+<script src="https://pl29151310.profitablecpmratenetwork.com/2c/de/7b/2cde7bed95f2e6c5dfef249adc1e47ef.js"></script>
+
 <style>
 body{
   margin:0;
@@ -22,6 +25,7 @@ body{
   justify-content:space-between;
   align-items:center;
   padding:12px 30px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
 .logo{
@@ -76,6 +80,10 @@ button{
   color:white;
 }
 
+.paste{
+  background:#ccc;
+}
+
 video{
   width:400px;
   max-width:90%;
@@ -108,15 +116,9 @@ video{
 .footer{
   background:#0a0a0a;
   color:#aaa;
-  padding:20px;
+  padding:20px 30px;
 }
 </style>
-
-<!-- 🔥 SOCIAL BAR -->
-<script src="https://pl29151310.profitablecpmratenetwork.com/2c/de/7b/2cde7bed95f2e6c5dfef249adc1e47ef.js"></script>
-
-<!-- 🔥 POPUNDER -->
-<script src="https://pl29151309.profitablecpmratenetwork.com/a0/ff/4c/a0ff4c6490f7abb8330ce6f3d00456d3.js"></script>
 
 </head>
 
@@ -133,20 +135,20 @@ video{
 
 <div class="box">
   <input id="url" placeholder="Paste Instagram link">
-  <button onclick="pasteLink()">Paste</button>
+  <button class="paste" onclick="pasteLink()">Paste</button>
   <button class="get" onclick="getVideo()">Get</button>
 </div>
 
-<!-- 🔥 TOP BANNER -->
+<!-- 🔥 BANNER -->
 <div class="ad-box">
 <script>
-  atOptions = {
-    'key' : '5a390ab4cc4d9dedccdbfa3b01ab73c1',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
+atOptions = {
+  'key' : '5a390ab4cc4d9dedccdbfa3b01ab73c1',
+  'format' : 'iframe',
+  'height' : 90,
+  'width' : 728,
+  'params' : {}
+};
 </script>
 <script src="https://www.highperformanceformat.com/5a390ab4cc4d9dedccdbfa3b01ab73c1/invoke.js"></script>
 </div>
@@ -157,32 +159,18 @@ video{
   <button class="download" onclick="downloadVideo()">Download</button>
 </div>
 
-<!-- 🔥 SECOND BANNER -->
-<div class="ad-box">
-<script>
-  atOptions = {
-    'key' : '5a390ab4cc4d9dedccdbfa3b01ab73c1',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/5a390ab4cc4d9dedccdbfa3b01ab73c1/invoke.js"></script>
-</div>
-
 <div class="big-logo">InstaReelX</div>
 
 </div>
 
 <div class="footer">
-© 2026 InstaReelX • Not affiliated with Instagram
+© 2026 InstaReelX • Not affiliated with Instagram.
 </div>
 
 <script>
 let currentUrl = "";
 
-/* PASTE BUTTON */
+/* PASTE */
 async function pasteLink(){
   const text = await navigator.clipboard.readText();
   document.getElementById("url").value = text;
@@ -192,6 +180,11 @@ async function pasteLink(){
 async function getVideo(){
   const url = document.getElementById("url").value;
   currentUrl = url;
+
+  if(!url){
+    alert("Link paste karo");
+    return;
+  }
 
   const res = await fetch("/get-video",{
     method:"POST",
@@ -209,12 +202,9 @@ async function getVideo(){
   }
 }
 
-/* DOWNLOAD (🔥 MONEY TRIGGER) */
+/* 🔥 DOWNLOAD = EARNING */
 function downloadVideo(){
-  window.open("https://pl29151309.profitablecpmratenetwork.com/a0/ff/4c/a0ff4c6490f7abb8330ce6f3d00456d3.js");
-  setTimeout(()=>{
-    window.open("/download-file?url=" + encodeURIComponent(currentUrl));
-  },1000);
+  window.open("https://www.profitablecpmratenetwork.com/fa99i0p2ga?key=57d4d85402cc9e3c3b8a04dfe5e52181");
 }
 </script>
 
