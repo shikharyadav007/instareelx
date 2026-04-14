@@ -1,10 +1,11 @@
 {
+  "name": "instareelx",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
-<<<<<<< HEAD
-    "express": "^5.2.1",
-    "node-fetch": "^3.3.2"
-=======
-    "express": "^5.2.1"
->>>>>>> 34c6bf711148579f38a0b6e1b9235cf0b6c761be
+    "express": "^4.18.2"
   }
 }
