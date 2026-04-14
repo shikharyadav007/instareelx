@@ -1,6 +1,10 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "express": "^5.2.1",
     "node-fetch": "^3.3.2"
+=======
+    "express": "^5.2.1"
+>>>>>>> 34c6bf711148579f38a0b6e1b9235cf0b6c761be
   }
 }
