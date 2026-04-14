@@ -1,43 +1,57 @@
 const express = require("express");
 const fetch = require("node-fetch");
+const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5500;
 
 app.use(express.json());
 app.use(express.static(__dirname));
 
+/* 🔥 GET VIDEO USING FREE API */
 app.post("/get-video", async (req, res) => {
   try {
     const { url } = req.body;
 
     if (!url) {
-      return res.json({ error: "No URL provided" });
+      return res.json({ error: "No URL" });
     }
 
-    // 🔥 proxy API (lightweight)
-    const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
-    const html = await response.text();
+    // FREE PUBLIC API (works on Render)
+    const api = `https://api.gramsnap.com/v1/video?url=${encodeURIComponent(url)}`;
 
-    const match = html.match(/https?:\/\/[^"]+\.mp4/);
+    const response = await fetch(api);
+    const data = await response.json();
 
-    if (match) {
-      res.json({ videoUrl: match[0] });
+    if (data && data.video) {
+      return res.json({ videoUrl: data.video });
     } else {
-      res.json({ error: "Video not found" });
+      return res.json({ error: "Video not found" });
     }
 
   } catch (err) {
-    console.log(err);
-    res.json({ error: "Failed to fetch video" });
+    res.json({ error: "Server error" });
   }
 });
 
-app.get("/download-file", (req, res) => {
-  const url = req.query.url;
-  if (!url) return res.send("No URL");
+/* DOWNLOAD */
+app.get("/download-file", async (req, res) => {
+  try {
+    const url = req.query.url;
 
-  res.redirect(url);
+    const api = `https://api.gramsnap.com/v1/video?url=${encodeURIComponent(url)}`;
+    const response = await fetch(api);
+    const data = await response.json();
+
+    if (data.video) {
+      res.redirect(data.video);
+    } else {
+      res.send("Download failed");
+    }
+
+  } catch {
+    res.send("Error");
+  }
 });
 
 app.listen(PORT, () => {
