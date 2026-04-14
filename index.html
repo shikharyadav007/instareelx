@@ -1,281 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>InstaReelX</title>
+  <meta charset="UTF-8">
+  <title>InstaReelX</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-  margin:0;
-  font-family:Arial;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  background: linear-gradient(135deg,#6a11cb,#ff3d77);
-  color:white;
-  text-align:center;
-}
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-/* HEADER */
-.header{
-  background:white;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px 30px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.1);
-}
+    .container {
+      text-align: center;
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      width: 320px;
+    }
 
-.logo{
-  font-weight:bold;
-  font-size:18px;
-  background:linear-gradient(45deg,#6a11cb,#ff3d77);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: none;
+    }
 
-.header-right{
-  color:#555;
-  font-size:14px;
-}
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #22c55e;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
 
-/* MAIN */
-.hero{
-  flex:1;
-  padding:80px 20px;
-}
-
-h1{
-  font-size:42px;
-}
-
-/* INPUT BOX */
-.box{
-  background:white;
-  border-radius:12px;
-  width:600px;
-  max-width:90%;
-  margin:30px auto;
-  display:flex;
-  padding:10px;
-  gap:10px;
-}
-
-input{
-  flex:1;
-  padding:14px;
-  border:none;
-  outline:none;
-}
-
-button{
-  padding:12px 18px;
-  border:none;
-  cursor:pointer;
-  border-radius:8px;
-}
-
-.get{
-  background:#6a11cb;
-  color:white;
-}
-
-/* 🔥 NEW PASTE BUTTON */
-.paste{
-  background:#ddd;
-  color:#333;
-}
-
-.paste:hover{
-  background:#ccc;
-}
-
-/* VIDEO */
-video{
-  width:400px;
-  max-width:90%;
-  margin-top:20px;
-  border-radius:10px;
-}
-
-.download{
-  margin-top:10px;
-  background:#ff3d77;
-  color:white;
-}
-
-/* BIG LOGO */
-.big-logo{
-  font-size:60px;
-  font-weight:bold;
-  margin-top:80px;
-  opacity:0.9;
-}
-
-/* AD SPACE */
-.ad-box{
-  margin:40px auto;
-  width:728px;
-  max-width:90%;
-  height:90px;
-  background:rgba(255,255,255,0.2);
-  border:2px dashed rgba(255,255,255,0.5);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:14px;
-  border-radius:10px;
-}
-
-/* FOOTER */
-.footer{
-  background:#0a0a0a;
-  color:#aaa;
-  padding:20px 30px;
-}
-
-.footer-content{
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:20px;
-  max-width:1000px;
-  margin:auto;
-}
-
-.footer-left{
-  font-weight:bold;
-  color:white;
-}
-
-.footer-links a{
-  color:#aaa;
-  text-decoration:none;
-  margin-right:15px;
-  font-size:14px;
-}
-
-.footer-links a:hover{
-  color:white;
-}
-
-.footer-bottom{
-  margin-top:10px;
-  font-size:12px;
-  color:#666;
-}
-</style>
-
+    button:hover {
+      background: #16a34a;
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="logo">InstaReelX</div>
-  <div class="header-right">Fast • Free • Secure</div>
-</div>
+  <div class="container">
+    <h2>InstaReelX</h2>
 
-<!-- HERO -->
-<div class="hero">
+    <input
+      type="text"
+      id="urlInput"
+      placeholder="Paste Instagram Reel URL"
+    >
 
-<h1>Download Instagram Reels Instantly</h1>
-
-<div class="box">
-  <input id="url" placeholder="Paste Instagram link">
-
-  <!-- 🔥 PASTE BUTTON -->
-  <button class="paste" onclick="pasteLink()">Paste</button>
-
-  <button class="get" onclick="getVideo()">Get</button>
-</div>
-
-<!-- AD TOP -->
-<div class="ad-box">Advertisement Space</div>
-
-<div id="preview" style="display:none;">
-  <video id="video" controls></video>
-  <br>
-  <button class="download" onclick="downloadVideo()">Download</button>
-</div>
-
-<!-- AD MIDDLE -->
-<div class="ad-box">Advertisement Space</div>
-
-<!-- BIG LOGO -->
-<div class="big-logo">
-  InstaReelX
-</div>
-
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-
-  <div class="footer-content">
-
-    <div class="footer-left">
-      InstaReelX
-    </div>
-
-    <div class="footer-links">
-      <a href="#">Home</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms</a>
-      <a href="#">Contact</a>
-    </div>
-
+    <button onclick="getVideo()">GET</button>
   </div>
 
-  <div class="footer-bottom">
-    © 2026 InstaReelX • This tool is not affiliated with Instagram.  
-    Users are responsible for downloaded content usage.
-  </div>
+  <script>
+    function getVideo() {
+      const input = document.getElementById("urlInput");
+      const url = input.value.trim();
 
-</div>
+      if (!url) {
+        alert("Please enter Instagram URL");
+        return;
+      }
 
-<script>
-let currentUrl = "";
-
-/* 🔥 PASTE FUNCTION */
-async function pasteLink(){
-  try{
-    const text = await navigator.clipboard.readText();
-    document.getElementById("url").value = text;
-  }catch(err){
-    alert("Clipboard allow karo");
-  }
-}
-
-/* PREVIEW */
-async function getVideo(){
-  const url = document.getElementById("url").value;
-  currentUrl = url;
-
-  if(!url){
-    alert("Link paste karo");
-    return;
-  }
-
-  const res = await fetch("/get-video",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({url})
-  });
-
-  const data = await res.json();
-
-  if(data.videoUrl){
-    document.getElementById("video").src = data.videoUrl;
-    document.getElementById("preview").style.display = "block";
-  }
-}
-
-/* DOWNLOAD */
-function downloadVideo(){
-  window.open("/download-file?url=" + encodeURIComponent(currentUrl));
-}
-</script>
+      // Backend call
+      window.open(`/download-file?url=${encodeURIComponent(url)}`, "_blank");
+    }
+  </script>
 
 </body>
 </html>

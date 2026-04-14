@@ -1,45 +1,14 @@
 const express = require("express");
-const fetch = require("node-fetch");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 5500;
 
+// Serve static files
 app.use(express.static(__dirname));
 
-
 // ==============================
-// 🎯 GET VIDEO (API BASED)
-// ==============================
-app.get("/get-video", async (req, res) => {
-  const url = req.query.url;
-
-  if (!url) {
-    return res.json({ error: "No URL provided" });
-  }
-
-  try {
-    const response = await fetch(
-      `https://api.ryzendesu.vip/api/downloader/instagram?url=${encodeURIComponent(url)}`
-    );
-
-    const data = await response.json();
-
-    if (!data || !data.data) {
-      return res.json({ error: "Failed to fetch video" });
-    }
-
-    res.json({
-      videoUrl: data.data[0].url
-    });
-
-  } catch (error) {
-    res.json({ error: "Server error" });
-  }
-});
-
-
-// ==============================
-// 📥 DOWNLOAD (DIRECT LINK)
+// DOWNLOAD ROUTE (FINAL)
 // ==============================
 app.get("/download-file", (req, res) => {
   const fileUrl = req.query.url;
@@ -48,9 +17,12 @@ app.get("/download-file", (req, res) => {
     return res.send("No URL provided");
   }
 
-  res.redirect(fileUrl); // direct download
+  try {
+    return res.redirect(fileUrl);
+  } catch (err) {
+    return res.send("Download failed");
+  }
 });
-
 
 // ==============================
 app.listen(PORT, () => {
