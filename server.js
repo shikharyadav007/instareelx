@@ -7,28 +7,41 @@ const PORT = process.env.PORT || 10000;
 app.use(express.json());
 app.use(express.static(__dirname));
 
-/* VIDEO FETCH (FREE WORKING API) */
+/* 🔥 GET VIDEO */
 app.post("/get-video", async (req, res) => {
   try {
     const { url } = req.body;
 
-    const api = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-    const response = await fetch(api);
-    const html = await response.text();
-
-    const match = html.match(/https?:\/\/[^"]+\.mp4/);
-
-    if (match) {
-      res.json({ videoUrl: match[0] });
-    } else {
-      res.json({ error: "Video not found" });
+    if (!url) {
+      return res.json({ error: "No URL" });
     }
 
-  } catch {
-    res.json({ error: "Failed" });
+    // 🔥 Working public API (more stable)
+    const api = `https://api.ryzendesu.vip/api/downloader/instagram?url=${encodeURIComponent(url)}`;
+
+    const response = await fetch(api);
+    const data = await response.json();
+
+    if (data && data.data && data.data.length > 0) {
+      return res.json({ videoUrl: data.data[0].url });
+    } else {
+      return res.json({ error: "Video not found" });
+    }
+
+  } catch (err) {
+    console.log(err);
+    res.json({ error: "Server error" });
   }
 });
 
+/* DOWNLOAD */
+app.get("/download-file", (req, res) => {
+  const url = req.query.url;
+  if (!url) return res.send("No URL");
+
+  res.redirect(url);
+});
+
 app.listen(PORT, () => {
-  console.log("Server running");
+  console.log("Server running on port " + PORT);
 });
