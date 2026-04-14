@@ -15,26 +15,16 @@ app.post("/get-video", async (req, res) => {
       return res.json({ error: "No URL provided" });
     }
 
-    // 🔥 Better API (more stable)
-    const apiUrl = `https://snapinsta.app/action.php`;
+    // 🔥 proxy API (lightweight)
+    const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
+    const html = await response.text();
 
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: `url=${encodeURIComponent(url)}`
-    });
-
-    const text = await response.text();
-
-    // 🔥 Extract video link (simple regex)
-    const match = text.match(/https?:\/\/[^"]+\.mp4/);
+    const match = html.match(/https?:\/\/[^"]+\.mp4/);
 
     if (match) {
-      return res.json({ videoUrl: match[0] });
+      res.json({ videoUrl: match[0] });
     } else {
-      return res.json({ error: "Video not found" });
+      res.json({ error: "Video not found" });
     }
 
   } catch (err) {
