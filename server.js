@@ -7,9 +7,6 @@ const PORT = process.env.PORT || 10000;
 app.use(express.json());
 app.use(express.static(__dirname));
 
-/* =========================
-   GET VIDEO PREVIEW API
-========================= */
 app.post("/get-video", async (req, res) => {
   try {
     const { url } = req.body;
@@ -18,14 +15,24 @@ app.post("/get-video", async (req, res) => {
       return res.json({ error: "No URL provided" });
     }
 
-    // 🔥 Simple trick (works for many reels)
-    const apiUrl = `https://api.vxtiktok.com/instagram?url=${url}`;
+    // 🔥 Better API (more stable)
+    const apiUrl = `https://snapinsta.app/action.php`;
 
-    const response = await fetch(apiUrl);
-    const data = await response.json();
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: `url=${encodeURIComponent(url)}`
+    });
 
-    if (data && data.video) {
-      return res.json({ videoUrl: data.video });
+    const text = await response.text();
+
+    // 🔥 Extract video link (simple regex)
+    const match = text.match(/https?:\/\/[^"]+\.mp4/);
+
+    if (match) {
+      return res.json({ videoUrl: match[0] });
     } else {
       return res.json({ error: "Video not found" });
     }
@@ -36,20 +43,13 @@ app.post("/get-video", async (req, res) => {
   }
 });
 
-/* =========================
-   DOWNLOAD ROUTE
-========================= */
 app.get("/download-file", (req, res) => {
   const url = req.query.url;
-
   if (!url) return res.send("No URL");
 
   res.redirect(url);
 });
 
-/* =========================
-   START SERVER
-========================= */
 app.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
