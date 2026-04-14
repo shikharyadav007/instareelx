@@ -23,7 +23,6 @@ body{
   justify-content:space-between;
   align-items:center;
   padding:12px 30px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
 .logo{
@@ -45,11 +44,6 @@ body{
   padding:80px 20px;
 }
 
-h1{
-  font-size:42px;
-}
-
-/* INPUT BOX */
 .box{
   background:white;
   border-radius:12px;
@@ -65,187 +59,102 @@ input{
   flex:1;
   padding:14px;
   border:none;
-  outline:none;
 }
 
 button{
-  padding:12px 18px;
+  padding:12px;
   border:none;
   cursor:pointer;
   border-radius:8px;
 }
 
-.get{
-  background:#6a11cb;
-  color:white;
-}
+.get{ background:#6a11cb;color:white; }
+.paste{ background:#999;color:white; }
 
 /* VIDEO */
 video{
   width:400px;
   max-width:90%;
   margin-top:20px;
-  border-radius:10px;
-}
-
-.download{
-  margin-top:10px;
-  background:#ff3d77;
-  color:white;
-}
-
-/* BIG LOGO */
-.big-logo{
-  font-size:60px;
-  font-weight:bold;
-  margin-top:80px;
-  opacity:0.9;
-}
-
-/* AD SPACE */
-.ad-box{
-  margin:40px auto;
-  width:728px;
-  max-width:90%;
-  height:90px;
-  background:rgba(255,255,255,0.2);
-  border:2px dashed rgba(255,255,255,0.5);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:14px;
-  border-radius:10px;
 }
 
 /* FOOTER */
 .footer{
-  background:#0a0a0a;
-  color:#aaa;
-  padding:20px 30px;
-}
-
-.footer-content{
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:20px;
-  max-width:1000px;
-  margin:auto;
-}
-
-.footer-left{
-  font-weight:bold;
-  color:white;
-}
-
-.footer-links a{
-  color:#aaa;
-  text-decoration:none;
-  margin-right:15px;
-  font-size:14px;
-}
-
-.footer-links a:hover{
-  color:white;
-}
-
-.footer-bottom{
-  margin-top:10px;
-  font-size:12px;
-  color:#666;
+  background:#000;
+  padding:10px;
 }
 </style>
-
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="logo">InstaReelX</div>
   <div class="header-right">Fast • Free • Secure</div>
 </div>
 
-<!-- HERO -->
 <div class="hero">
 
 <h1>Download Instagram Reels Instantly</h1>
 
 <div class="box">
   <input id="url" placeholder="Paste Instagram link">
+
+  <!-- 🔥 PASTE BUTTON -->
+  <button class="paste" onclick="pasteLink()">Paste</button>
+
   <button class="get" onclick="getVideo()">Get</button>
 </div>
-
-<!-- AD TOP -->
-<div class="ad-box">Advertisement Space</div>
 
 <div id="preview" style="display:none;">
   <video id="video" controls></video>
   <br>
-  <button class="download" onclick="downloadVideo()">Download</button>
-</div>
-
-<!-- AD MIDDLE -->
-<div class="ad-box">Advertisement Space</div>
-
-<!-- BIG LOGO -->
-<div class="big-logo">
-  InstaReelX
+  <button onclick="downloadVideo()">Download</button>
 </div>
 
 </div>
 
-<!-- FOOTER -->
-<div class="footer">
-
-  <div class="footer-content">
-
-    <div class="footer-left">
-      InstaReelX
-    </div>
-
-    <div class="footer-links">
-      <a href="#">Home</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms</a>
-      <a href="#">Contact</a>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © 2026 InstaReelX • This tool is not affiliated with Instagram.  
-    Users are responsible for downloaded content usage.
-  </div>
-
-</div>
+<div class="footer">© InstaReelX</div>
 
 <script>
-let currentUrl = "";
+let videoUrl = "";
 
-/* GET BUTTON FIXED */
-function getVideo(){
+/* PASTE */
+async function pasteLink(){
+  try{
+    const text = await navigator.clipboard.readText();
+    document.getElementById("url").value = text;
+  }catch{
+    alert("Clipboard allow karo");
+  }
+}
+
+/* GET VIDEO (API BASED) */
+async function getVideo(){
   const url = document.getElementById("url").value;
-  currentUrl = url;
 
   if(!url){
     alert("Link paste karo");
     return;
   }
 
-  // Preview show (direct)
-  document.getElementById("video").src = url;
-  document.getElementById("preview").style.display = "block";
+  try{
+    const res = await fetch("https://api.ryzendesu.vip/api/downloader/instagram?url="+encodeURIComponent(url));
+    const data = await res.json();
+
+    videoUrl = data.data[0].url;
+
+    document.getElementById("video").src = videoUrl;
+    document.getElementById("preview").style.display = "block";
+
+  }catch{
+    alert("Failed to fetch video");
+  }
 }
 
-/* DOWNLOAD WORKING */
+/* DOWNLOAD */
 function downloadVideo(){
-  if(!currentUrl){
-    alert("Pehle link paste karo");
-    return;
-  }
-
-  window.open("/download-file?url=" + encodeURIComponent(currentUrl));
+  window.open(videoUrl);
 }
 </script>
 
