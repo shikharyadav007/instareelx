@@ -4,12 +4,15 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 5500;
 
-// Serve static files
-app.use(express.static(__dirname));
+// IMPORTANT: correct path serve karo
+app.use(express.static(path.join(__dirname)));
 
-// ==============================
-// DOWNLOAD ROUTE (FINAL)
-// ==============================
+// Home route (VERY IMPORTANT)
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// Download route
 app.get("/download-file", (req, res) => {
   const fileUrl = req.query.url;
 
@@ -17,14 +20,9 @@ app.get("/download-file", (req, res) => {
     return res.send("No URL provided");
   }
 
-  try {
-    return res.redirect(fileUrl);
-  } catch (err) {
-    return res.send("Download failed");
-  }
+  res.redirect(fileUrl);
 });
 
-// ==============================
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
